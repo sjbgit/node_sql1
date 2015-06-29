@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sjbgit/node_sql1",
   "dependencies": {
+    "bluebird": "^2.9.30",
     "mssql": "^2.1.6"
   }
 }

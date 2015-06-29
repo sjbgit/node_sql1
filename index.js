@@ -1,32 +1,60 @@
 /**
  * Created by sbunke on 6/26/2015.
  */
-var sql = require('mssql');
 
-var con = 'Server=tcp:vwn2cbsiwx.database.windows.net,1433;Database=Pulse;User ID=gmradmin@vwn2cbsiwx;Password=p@ssw0rd;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;MultipleActiveResultSets=True'
+    /*
 
-var config = {
-    user: 'gmradmin@vwn2cbsiwx',
-    password: 'p@ssw0rd',
-    server: 'vwn2cbsiwx.database.windows.net', // You can use 'localhost\\instance' to connect to named instance
-    database: 'PulseTelemetry',
+var sql = require('./sql');
 
-    options: {
-        encrypt: true // Use this if you're on Windows Azure
-    }
+//console.log(sql);
+
+
+sql.connection.request().query('select top 100 * from LogMessages', function(err, recordset) {
+    // ... error checks
+    console.log(err);
+    //console.dir(recordset);
+    console.log(recordset);
+});
+
+
+        */
+
+
+var Promise = require('bluebird');
+
+function getPromise1(){
+    return new Promise(function(resolve, reject){
+        //reject(new Error("Rejected error"))
+    }).then(function(result) {
+            console.log('Result 1 ' + result);
+            return result;
+        }).then(function(result) {
+            console.log('Result 2 ' + result)
+            return result;
+        });
+}
+getPromise1()
+    .then(function(finalResult){console.log("Final result " + finalResult)})
+    .error(function(e){console.log("Error handler " + e)})
+    .catch(function(e){console.log("Catch handler " + e)});
+
+
+function p2(input) {
+    return new Promise(function(resolve, reject) {
+        if (input) {
+            resolve()
+        }
+        else {
+            //reject('rejecting');
+            //Promise.reject(new Error("Bad parameter"))
+        }
+
+
+    });
 }
 
-var connection = new sql.Connection(config, function(err) {
-    // ... error checks
-
-    // Query
-
-    var request = new sql.Request(connection); // or: var request = connection.request();
-    request.query('select top 100 * from LogMessages', function(err, recordset) {
-        // ... error checks
-        console.log(err);
-        //console.dir(recordset);
-        console.log(recordset);
-    });
-
-});
+p2().then(function() {
+    console.log('in then')
+}).error(function() {
+    console.log('in error');
+}).catch(function(e){console.log("Catch handler " + e)});
